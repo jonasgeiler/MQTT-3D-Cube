@@ -116,9 +116,21 @@
 				cube.position.z = z;
 			}
 
+			function mqtt_reset() {
+				cube.position.x = 0;
+				cube.position.y = 150;
+				cube.position.z = 0;
+
+				cube.rotation.x = 0;
+				cube.rotation.y = 0;
+				cube.rotation.z = 0;
+			}
+
 			function receive(topic, payload) {
 				cmd = topic.replace('cube/', '');
 				val = parseInt(payload);
+
+				console.log('Received', cmd, val);
 
 				if(!window['mqtt_' + cmd.toLowerCase()] || !val) return false;
 
@@ -165,6 +177,7 @@
 				client.subscribe('cube/posx');
 				client.subscribe('cube/posy');
 				client.subscribe('cube/posz');
+				client.subscribe('cube/reset');
 
 				console.log('Connected.');
 			});
